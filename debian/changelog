@@ -1,0 +1,20 @@
+bloocoo (1.0.7-2) UNRELEASED; urgency=medium
+
+  * Ability to find a compile against libgatbcore previously installed on
+  the system. Add missing pthread to target_link_libraries() of bloocoo,
+  this resolves missing symbols.
+
+  * Remove unwanted files from install directive.
+
+  * Move examples and scripts to specific folders: /usr/share/bloocoo/.
+  Rename metaBloocoo to metaBloocoo.py to enable dh_python3 detection.
+  Rename Bloocoo and metaBloocoo executables to a Debian name: bloocoo
+  and meta-bloocoo.
+
+ -- Pierre Vignet <pierre.vignet.contact@caramail.fr>  Fri, 21 Jul 2017 15:43:18 +0200
+
+bloocoo (1.0.7-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Pierre Vignet <pierre.vignet.contact@caramail.fr>  Fri, 21 Jul 2017 15:20:06 +0200

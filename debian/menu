@@ -1,0 +1,2 @@
+?package(bloocoo):needs="text" section="Applications/Science/Biology"\
+  title="bloocoo" command="/usr/bin/bloocoo"

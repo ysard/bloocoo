@@ -1,0 +1,24 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -72,7 +72,7 @@
+ include_directories (${PROGRAM_SOURCE_DIR})
+ file (GLOB_RECURSE  ProjectFiles  ${PROGRAM_SOURCE_DIR}/*)
+ add_executable(${PROJECT_NAME} ${ProjectFiles})
+-target_link_libraries(${PROJECT_NAME} ${GATBCORE_LIBRARIES})
++target_link_libraries(${PROJECT_NAME} ${GATBCORE_LIBRARIES} pthread)
+ add_custom_command(
+     TARGET ${PROJECT_NAME} POST_BUILD
+     COMMAND ln -sf "${CMAKE_CURRENT_SOURCE_DIR}/scripts/metaBloocoo" "${PROJECT_BINARY_DIR}/bin"
+@@ -109,9 +109,9 @@
+ 
+ # We copy some files to the binary archive
+ INSTALL (TARGETS ${PROJECT_NAME} DESTINATION bin)
+-INSTALL (DIRECTORY "${PROJECT_SOURCE_DIR}/test/" DESTINATION test)
+-INSTALL (FILES scripts/metaBloocoo DESTINATION bin)
+-INSTALL (FILES INSTALL LICENSE README.md DESTINATION bin/..)
++# INSTALL (DIRECTORY "${PROJECT_SOURCE_DIR}/test/" DESTINATION test)
++INSTALL (FILES scripts/metaBloocoo DESTINATION share/bloocoo/)
++# INSTALL (FILES INSTALL LICENSE README.md DESTINATION bin/..)
+ 
+ # We include the "bin" tag into binary archive file name
+ set (CPACK_PACKAGE_FILE_NAME  ${PROJECT_NAME}-${CPACK_PACKAGE_VERSION}-bin-${CMAKE_SYSTEM_NAME})

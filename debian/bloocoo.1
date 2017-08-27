@@ -1,0 +1,101 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" (C) Copyright 2017 Pierre Vignet <pierre.vignet.contact@caramail.fr>,
+.\"
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH BLOOCOO 1 "July 21, 2017"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+bloocoo \- a k\-mer spectrum\-based read error corrector, designed to correct large datasets with a very low memory footprint.
+
+.SH DESCRIPTION
+Bloocoo is a kmer\-spectrum based read error corrector. In a first pass, all k\-mers are counted, then k\-mers more abundant than a given threshold are kept, i.e. “solid k\-mers”.
+
+Correction is then performed by scanning k\-mers of a read. For example, a single isolated error generates a gap of k non solid k\-mers making the detection of its exact location easy. Correction is made by trying the three different possible nucleotides at the error site, and checking if corresponding k\-mers are in the set of solid k\-mers.
+
+When several close errors occurs, the pattern is more complex, errors are corrected via a vote algorithm similar to the one in the Musket software (http://musket.sourceforge.net/).
+
+What makes Bloocoo different is the k\-mer counting stage and the way solid k\-mers are stored in memory. k\-mer counting is conducted via the DSK algorithm included in the GATB library, which requires constant\-memory. Solid k\-mers are stored in a Bloom filter which is fast and memory\-efficient : we use only 11 bits of memory per solid k\-mers. Therefore, correction of a whole human genome sequencing read set needs only 4GB of memory.
+
+.SH OPTIONS
+.BI "A typical command line is:"
+.PP
+.RS
+bloocoo \-file reads.fasta \-kmer\-size 27  \-abundance 4
+.RE
+.PP
+
+.BI "Mandatory argument:"
+.PP
+.RS
+.BI "\-file"
+the read file name, can be fasta, fastq, gzipped or not.
+.RE
+.PP
+
+.BI "Two important arguments:"
+.PP
+.RS
+.TP
+.BI "\-kmer\-size"
+the k\-mer size (typically ~31)
+.TP
+.BI "\-abundance\-min"
+the minimal abundance threshold defining solid k\-mers (typically  between 3 and 6, but depends on the read depth, you can also use 'auto' and it is automatically inferred from the data)
+.PP
+.RE
+.PP
+
+.BI "Additional useful options :"
+.PP
+.RS
+.TP
+.BI "\-nb\-cores"
+number of threads used
+.TP
+.BI "\-high\-recall"
+correct more errors but can also introduce more mistakes
+.TP
+.BI "\-slow"
+slower modes with more pass, but better correction
+.TP
+.BI "\-high\-precision"
+correct safely, correct less errors but introduce less mistakes
+.TP
+.BI "\-ion"
+(experimental) mode for correcting indels present in  ion torrent reads
+.PP
+.RE
+.PP
+
+
+.SH EXAMPLES
+Generates the file reads_corrected.fasta
+.PP
+.RS
+bloocoo \-file reads.fasta
+.RE
+.PP
+
+.SH "SEE ALSO"
+.BR bloocoo (1)
+.br
+The programs are documented fully by the Genscale Team
+available at https://github.com/GATB/bloocoo
+
+.SH AUTHORS
+This manual page was written by Pierre Vignet <pierre.vignet.contact@caramail.fr>
+for the Debian project (and may be used by others).
+
